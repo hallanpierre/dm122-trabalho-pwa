@@ -9,6 +9,7 @@ const assetsToCache = [
   //'./assets/js/material.min.js',
   './assets/css/style.css',
   './assets/js/app.js',
+  './assets/js/TodoService.js',
   './favicon.ico',
   './index.html',
   './'
