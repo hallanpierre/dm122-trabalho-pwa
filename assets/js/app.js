@@ -1,6 +1,9 @@
+import TodoService from './TodoService.js';
+
 class App {
     constructor() {
         this.registerServiceWorker();
+        new TodoService();
     }
 
     registerServiceWorker() {

@@ -4,38 +4,27 @@ export default class TodoService {
 
     constructor() {
         this.initializeDB();
+        this.getAll();
     }
 
     initializeDB() {
-        db = new Dexie('todoDB');
+        db = new Dexie('carDB');
 
         db.version(1).stores({
-            cars: `++id,name,value,priority`
-          });
-          
+            cars: '++id, name, type, priority'
+        });
+        
         db.on('populate', async () => {
             await db.cars.bulkPut([
-                { name: 'Gol', value: 1000, priority: 1 },
-                { name: 'Palio', value: 2000, priority: 2 },
-                { name: 'Corsa', value: 3000, priority: 3 },
-                { name: 'Celta', value: 4000, priority: 4 },
+                { name: 'Gol', type: 'Simples', priority: '1' },
+                { name: 'Palio', type: 'Simples', priority: '2' },
+                { name: 'Corsa', type: 'Completa', priority: '3' },
+                { name: 'Celta', type: 'Completa', priority: '4' },
             ]);
         });
     }
     
-    getAll() {
-        return db.tasks.toArray();
-    }
-
-    get(id) {
-        return db.tasks.get(id);
-    }
-
-    save(task) {
-        return db.tasks.put(task);
-    }
-
-    delete(id) {
-        return db.tasks.delete(id);
+    async getAll() {
+        return await db.cars.toArray();
     }
 }
