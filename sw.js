@@ -1,4 +1,4 @@
-const cacheName = 'app-shell-v3';
+const cacheName = 'app-shell-v1';
 const assetsToCache = [
     'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
     'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
@@ -6,9 +6,10 @@ const assetsToCache = [
     'https://fonts.googleapis.com/css?family=Roboto:400,700',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     'https://unpkg.com/dexie@latest/dist/dexie.min.js',
-    //'./assets/js/material.min.js',
     './assets/css/style.css',
+    './assets/js/material.min.js',
     './assets/js/app.js',
+    './assets/js/HtmlService.js',
     './assets/js/TodoService.js',
     './favicon.ico',
     './index.html',
