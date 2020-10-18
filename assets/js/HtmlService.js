@@ -46,7 +46,19 @@ export default class HtmlService {
     async getCar(li) {
         const carId = +li.getAttribute('data-item-id');
         const car = await this.todoService.get(carId);
-        console.log('Car', car);
+        
+        const carName = document.getElementsByName('carro')[0];
+        carName.value = car.name;
+        carName.setAttribute('disabled', true);
+
+        const types = document.getElementsByName('tipos')[0].options;
+        for (let index = 0; index < types.length; index++) {
+            const option = types[index];
+            if (option.value === car.type) {
+                option.selected = true;
+            }
+        };
+        
     }
 
     toggleCar(li) {
@@ -62,15 +74,15 @@ export default class HtmlService {
         const span = document.createElement('span');
 
         li.setAttribute('data-item-id', car.id);
-        li.addEventListener('click', () => this.toggleCar(li));
+        li.addEventListener('click', () => this.getCar(li));
 
         span.textContent = car.name + ' | ' + car.type;
 
-        const editButton = document.createElement('button');
-        editButton.textContent = 'E';
-        editButton.addEventListener('click', event => {
+        const toogleButton = document.createElement('button');
+        toogleButton.textContent = 'E';
+        toogleButton.addEventListener('click', event => {
             event.stopPropagation();
-            this.getCar(li);
+            this.toggleCar(li)
         });
 
         const deleteButton = document.createElement('button');
@@ -85,7 +97,7 @@ export default class HtmlService {
         }
 
         li.appendChild(span);
-        li.appendChild(editButton);
+        li.appendChild(toogleButton);
         li.appendChild(deleteButton);
         ul.appendChild(li);
     }
