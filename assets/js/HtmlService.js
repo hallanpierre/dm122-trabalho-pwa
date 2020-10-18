@@ -1,9 +1,7 @@
-import TodoService from './TodoService.js';
-
 const DONE = 'done';
 
 export default class HtmlService {
-
+    selectedId = '';
     constructor(todoService) {
         this.todoService = todoService;
         this.bindFormEvent();
@@ -14,8 +12,18 @@ export default class HtmlService {
         const form = document.querySelector('form');
         form.addEventListener('submit', event => {
             event.preventDefault();
-            this.addCar(form.carro.value, form.tipos.value);
+            this.selectedId === ''
+                ? this.addCar(form.carro.value, form.tipos.value)
+                : this.saveCarByType(this.selectedId, form.tipos.value);
             form.reset();
+            this.selectedId = '';
+        });
+        form.addEventListener('reset', event => {
+            const carName = document.getElementsByName('carro')[0];
+            carName.disabled = false;
+            const carType = document.getElementsByName('tipos')[0];
+            carType.disabled = false;
+            this.selectedId = '';
         });
     }
 
@@ -27,6 +35,9 @@ export default class HtmlService {
     }
 
     async listCars() {
+        const ul = document.querySelector('ul');
+        ul.innerHTML = '';
+
         const cars = await this.todoService.getAll();
         cars.forEach(car => this.addToHtmlList(car));
     }
@@ -35,6 +46,13 @@ export default class HtmlService {
         const car = await this.todoService.get(carId);
         car.done = isDone;
         this.todoService.save(car);
+    }
+
+    async saveCarByType(carId, tipo) {
+        const car = await this.todoService.get(carId);
+        car.type = tipo;
+        this.todoService.save(car);
+        this.listCars();
     }
 
     async deleteCar(li) {
@@ -46,13 +64,15 @@ export default class HtmlService {
     async getCar(li) {
         const carId = +li.getAttribute('data-item-id');
         const car = await this.todoService.get(carId);
+        this.selectedId = carId;
         
         const carName = document.getElementsByName('carro')[0];
         carName.value = car.name;
-        carName.setAttribute('disabled', true);
+        carName.disabled = true;
 
-        const types = document.getElementsByName('tipos')[0].options;
-        for (let index = 0; index < types.length; index++) {
+        const types = document.getElementsByName('tipos')[0];
+        types.disabled = car.done;
+        for (let index = 0; index < types.options.length; index++) {
             const option = types[index];
             if (option.value === car.type) {
                 option.selected = true;
@@ -79,7 +99,7 @@ export default class HtmlService {
         span.textContent = car.name + ' | ' + car.type;
 
         const toogleButton = document.createElement('button');
-        toogleButton.textContent = 'E';
+        toogleButton.textContent = 'D';
         toogleButton.addEventListener('click', event => {
             event.stopPropagation();
             this.toggleCar(li)
