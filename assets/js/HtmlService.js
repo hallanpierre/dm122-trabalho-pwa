@@ -14,7 +14,7 @@ export default class HtmlService {
         const form = document.querySelector('form');
         form.addEventListener('submit', event => {
             event.preventDefault();
-            this.addCar(form.carro.value, form.tipo.value);
+            this.addCar(form.carro.value, form.tipos.value);
             form.reset();
         });
     }

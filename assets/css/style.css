@@ -7,7 +7,7 @@ form {
   border-bottom: solid 1px #ddd;
 }
 
-input {
+input, select {
   width: 99%;
   padding: 0.5em;
   font-size: 1.4em;

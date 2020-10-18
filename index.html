@@ -33,8 +33,12 @@
         <main class="mdl-layout__content mat-typography" style="text-align: center">
             <form>
                 <input type="text" name="carro" placeholder="Car information" autofocus="" required="" autocomplete="off">
-                <input type="text" name="tipo" placeholder="Type" autofocus="" required="" autocomplete="off">
-                <input type="submit">
+                <select name="tipos" id="tipos">
+                    <option value="Simples">Simples</option>
+                    <option value="Completa">Completa</option>
+                    <option value="Completa Motor">Completa Motor</option>
+                </select>
+                <input type="submit" value="Add">
             </form>
             <ul></ul>
         </main>
