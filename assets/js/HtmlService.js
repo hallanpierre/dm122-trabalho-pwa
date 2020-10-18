@@ -43,6 +43,12 @@ export default class HtmlService {
         li.remove();
     }
 
+    async getCar(li) {
+        const carId = +li.getAttribute('data-item-id');
+        const car = await this.todoService.get(carId);
+        console.log('Car', car);
+    }
+
     toggleCar(li) {
         const carId = +li.getAttribute('data-item-id');
         li.classList.toggle(DONE);
@@ -54,15 +60,22 @@ export default class HtmlService {
         const ul = document.querySelector('ul');
         const li = document.createElement('li');
         const span = document.createElement('span');
-        const button = document.createElement('button');
 
         li.setAttribute('data-item-id', car.id);
         li.addEventListener('click', () => this.toggleCar(li));
 
         span.textContent = car.name + ' | ' + car.type;
 
-        button.textContent = 'x';
-        button.addEventListener('click', event => {
+        const editButton = document.createElement('button');
+        editButton.textContent = 'E';
+        editButton.addEventListener('click', event => {
+            event.stopPropagation();
+            this.getCar(li);
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'X';
+        deleteButton.addEventListener('click', event => {
             event.stopPropagation();
             this.deleteCar(li);
         });
@@ -72,7 +85,8 @@ export default class HtmlService {
         }
 
         li.appendChild(span);
-        li.appendChild(button);
+        li.appendChild(editButton);
+        li.appendChild(deleteButton);
         ul.appendChild(li);
     }
 }
